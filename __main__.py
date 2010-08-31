@@ -18,14 +18,16 @@
  You should have received a copy of the GNU General Public License along
  with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-
-import osmgpsmap
 import gtk, gobject
 import point
 import urllib, urllib2
 from xml.etree import ElementTree as ET
 import tempfile
 import os
+
+gobject.threads_init()
+gtk.gdk.threads_init()
+import osmgpsmap
 
 location = None
 Geoclue = None
@@ -101,7 +103,6 @@ class buscatcher(gtk.Window):
         self.control.set_properties(preferred_method=location.METHOD_USER_SELECTED,
             preferred_interval=location.INTERVAL_10S)
 
-        self.control.connect("error-verbose", self.location_error_liblocation, None)
         self.device.connect("changed", self.location_changed_liblocation, self.control)
         self.control.start()
         if self.device.fix:
