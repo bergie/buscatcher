@@ -92,7 +92,7 @@ class buscatcher(gtk.Window):
 
     def set_location(self, location):
         self.location = location
-        self.osm.set_mapcenter(self.location.lat, self.location.lon, 14)
+        self.osm.set_mapcenter(self.location.lat, self.location.lon, 15)
 
         if self.kmlfetch is None:
             self.kmlfetch = gobject.timeout_add(5000, self.fetch_kml)
