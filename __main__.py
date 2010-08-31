@@ -78,7 +78,7 @@ class buscatcher(gtk.Window):
 
         if 'icon' not in self.buses[busid]:
             # Bus doesn't have an icon yet
-            self.buses[busid]['icon'] = gtk.gdk.pixbuf_new_from_file_at_size(self.icons[bus['styleid']], 35,35)
+            self.buses[busid]['icon'] = gtk.gdk.pixbuf_new_from_file_at_size(self.icons[bus['styleid']], 55, 55)
         else:
             self.osm.remove_image(self.buses[busid]['icon'])
 
