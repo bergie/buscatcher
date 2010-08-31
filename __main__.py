@@ -24,6 +24,7 @@ import urllib, urllib2
 from xml.etree import ElementTree as ET
 import tempfile
 import os
+import socket
 
 gobject.threads_init()
 gtk.gdk.threads_init()
@@ -53,6 +54,9 @@ class buscatcher(gtk.Window):
         self.get_location()
 
         self.icondir = tempfile.gettempdir()
+
+        # Set a default timeout for our HTTP requests so they don't hang when cell connection is bad
+        socket.setdefaulttimeout(10)
 
     def build_ui(self):
         self.set_default_size(500, 500)
