@@ -86,7 +86,12 @@ class buscatcher(gtk.Window):
         else:
             self.osm.remove_image(self.buses[busid]['icon'])
 
-        self.osm.add_image(bus['location'].lat, bus['location'].lon, self.buses[busid]['icon'])
+        if self.buses[busid]['styleid'] != bus['styleid']:
+            self.buses[busid]['icon'] = gtk.gdk.pixbuf_new_from_file_at_size(self.icons[bus['styleid']], 55, 55)
+
+        self.buses[busid]['location'] = bus['location']
+
+        self.osm.add_image(self.buses[busid]['location'].lat, self.buses[busid]['location'].lon, self.buses[busid]['icon'])
 
     def get_location(self):
         if Geoclue:
