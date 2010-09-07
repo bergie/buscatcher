@@ -1,0 +1,10 @@
+
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=BusCatcher
+Exec=/usr/bin/python /opt/buscatcher/src/__main__.py >/tmp/buscatcher.out 2>/tmp/buscatcher.err
+Icon=buscatcher
+Name[en_US]=buscatcher.desktop
+Comment=Helsinki buses and trams moving on map in real time
