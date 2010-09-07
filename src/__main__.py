@@ -150,13 +150,13 @@ class buscatcher(gtk.Window):
             req = opener.open(url)
             kml = req.read()
         except urllib2.HTTPError, e:
-            print('HTTP error %s' % (e.code))
+            print('KML HTTP error %s' % (e.code))
             return True
         except urllib2.URLError, e:
-            print("Connection failed, error %s" % (e.message))
+            print("KML Connection failed, error %s" % (e.message))
             return True
         except IOError, e:
-            print "point.describe: Connection failed"
+            print "KML Connection failed"
             return True
 
         self.parse_kml(kml)
