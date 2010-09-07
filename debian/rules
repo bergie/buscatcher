@@ -1,0 +1,44 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep
+
+build:
+	dh_testdir
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_installdirs
+
+	mkdir -p $(CURDIR)/debian/buscatcher/opt/buscatcher/resources
+	cp -a resources/* $(CURDIR)/debian/buscatcher/opt/buscatcher/resources/
+	mkdir -p $(CURDIR)/debian/buscatcher/opt/buscatcher/src
+	cp -a src/* $(CURDIR)/debian/buscatcher/opt/buscatcher/src/
+	mkdir -p $(CURDIR)/debian/buscatcher/usr/share/applications/hildon/
+	ln -s -f /opt/buscatcher/resources/buscatcher.desktop $(CURDIR)/debian/buscatcher/usr/share/applications/hildon/buscatcher.desktop
+	mkdir -p $(CURDIR)/debian/buscatcher/usr/share/icons/hicolor/scalable/
+	ln -s -f /opt/buscatcher/resources/buscatcher_64x64.png $(CURDIR)/debian/buscatcher/usr/share/icons/hicolor/scalable/buscatcher.png
+	mkdir -p $(CURDIR)/debian/buscatcher/usr/share/icons/hicolor/64x64/apps
+	ln -s -f /opt/buscatcher/resources/buscatcher_64x64.png $(CURDIR)/debian/buscatcher/usr/share/icons/hicolor/64x64/apps/buscatcher.png
+	mkdir -p $(CURDIR)/debian/buscatcher/usr/share/pixmaps/
+	ln -s -f /opt/buscatcher/resources/buscatcher_64x64.png $(CURDIR)/debian/buscatcher/usr/share/pixmaps/buscatcher.png 
+
+clean:
+	dh_clean
+	rm -rf $(CURDIR)/debian/buscatcher/ 

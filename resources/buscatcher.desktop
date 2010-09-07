@@ -3,7 +3,7 @@
 Encoding=UTF-8
 Version=1.0
 Type=Application
-Name=BusCatcher
+Name=Bus Catcher
 Exec=/usr/bin/python /opt/buscatcher/src/__main__.py >/tmp/buscatcher.out 2>/tmp/buscatcher.err
 Icon=buscatcher
 Name[en_US]=buscatcher.desktop
