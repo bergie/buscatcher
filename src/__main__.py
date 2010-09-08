@@ -40,12 +40,19 @@ except ImportError:
     except ImportError:
         print "No location service found"
 
+osso = None
+try:
+    import osso
+except ImportError:
+    pass
+
 class buscatcher(gtk.Window):
     location = None
     kmlfetch = None
     buses = {}
     icons = {}
     downloads = {}
+    stop_fetching = False
 
     def __init__(self):
         win = gtk.Window.__init__(self)
@@ -142,7 +149,28 @@ class buscatcher(gtk.Window):
     def location_changed_geoclue(self, fields, timestamp, latitude, longitude, altitude, accuracy):
         self.set_location(point.point(latitude, longitude))
 
+    def tracking_start(self):
+        self.stop_fetching = False
+        if self.kmlfetch is None:
+            self.kmlfetch = gobject.timeout_add(5000, self.fetch_kml)
+        if Geoclue:
+            pass
+        elif location:
+            self.control.start()
+
+    def tracking_stop(self):
+        self.stop_fetching = True
+        if Geoclue:
+            pass
+        elif location:
+            self.control.stop()
+
     def fetch_kml(self):
+        print "fetchkml"
+        if self.stop_fetching:
+            self.kmlfetch = None
+            return False
+
         opener = urllib2.build_opener()
         opener.addheaders = [('User-agent', 'buscatcher/0.1')]
         try:
@@ -205,7 +233,40 @@ class buscatcher(gtk.Window):
         for bus in buses:
             self.update_bus(bus)
 
+class device_monitor(osso.DeviceState):
+
+    display_on = None
+    display_off = None
+
+    def __init__(self, osso_c):
+        osso.DeviceState.__init__(self, osso_c)
+        self.set_display_event_cb(self.display_cb, None)
+
+    def set_display_off_cb(self, off_func):
+        self.display_off = off_func
+
+    def set_display_on_cb(self, on_func):
+        self.display_on = on_func
+
+    def display_cb(self, display_state,user_data=None):
+        if (display_state == osso.device_state.OSSO_DISPLAY_OFF):
+            if self.display_off != None:
+                self.display_off()
+        if (display_state == osso.device_state.OSSO_DISPLAY_ON):
+             if self.display_on != None:
+                self.display_on()
+
+        return False
+
+
 if __name__ == "__main__":
     u = buscatcher()
     u.show_all()
+
+    if osso:
+        osso_c = osso.Context("buscatcher", "0.0.1", False)
+        device_monitor = device_monitor(osso_c)
+        device_monitor.set_display_off_cb(u.tracking_stop)
+        device_monitor.set_display_on_cb(u.tracking_start)
+
     gtk.main()
