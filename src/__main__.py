@@ -60,7 +60,15 @@ class buscatcher(gtk.Window):
         self.build_ui()
         self.get_location()
 
-        self.icondir = tempfile.gettempdir()
+        self.icondir = os.path.expanduser('~/.cache/buscatcher')
+        if not os.path.exists(self.icondir):
+            try:
+                os.makedirs(self.icondir)
+            except OSError as exc: # Python >2.5
+                if exc.errno == errno.EEXIST:
+                    pass
+                else:
+                    raise
 
         # Set a default timeout for our HTTP requests so they don't hang when cell connection is bad
         socket.setdefaulttimeout(10)
