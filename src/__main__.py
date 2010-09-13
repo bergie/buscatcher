@@ -166,7 +166,6 @@ class buscatcher(gtk.Window):
             self.control.stop()
 
     def fetch_kml(self):
-        print "fetchkml"
         if self.stop_fetching:
             self.kmlfetch = None
             return False
@@ -233,39 +232,14 @@ class buscatcher(gtk.Window):
         for bus in buses:
             self.update_bus(bus)
 
-class device_monitor(osso.DeviceState):
-
-    display_on = None
-    display_off = None
-
-    def __init__(self, osso_c):
-        osso.DeviceState.__init__(self, osso_c)
-        self.set_display_event_cb(self.display_cb, None)
-
-    def set_display_off_cb(self, off_func):
-        self.display_off = off_func
-
-    def set_display_on_cb(self, on_func):
-        self.display_on = on_func
-
-    def display_cb(self, display_state,user_data=None):
-        if (display_state == osso.device_state.OSSO_DISPLAY_OFF):
-            if self.display_off != None:
-                self.display_off()
-        if (display_state == osso.device_state.OSSO_DISPLAY_ON):
-             if self.display_on != None:
-                self.display_on()
-
-        return False
-
-
 if __name__ == "__main__":
     u = buscatcher()
     u.show_all()
 
     if osso:
+        import devicemonitor
         osso_c = osso.Context("buscatcher", "0.0.1", False)
-        device_monitor = device_monitor(osso_c)
+        device_monitor = devicemonitor.device_monitor(osso_c)
         device_monitor.set_display_off_cb(u.tracking_stop)
         device_monitor.set_display_on_cb(u.tracking_start)
 
