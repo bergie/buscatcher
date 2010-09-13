@@ -131,8 +131,23 @@ class buscatcher(gtk.Window):
     def get_location_geoclue(self):
         self.geoclue = Geoclue.DiscoverLocation()
         self.geoclue.init()
-        self.geoclue.set_position_provider("hostip")
-        coordinates = self.geoclue.get_location_info()
+        providers = self.geoclue.get_available_providers()
+        selected_provider = None
+        lat_accuracy = 0
+        for provider in providers:
+            if not provider['position']:
+                continue
+            if provider['service'] == 'org.freedesktop.Geoclue.Providers.Example':
+                continue
+            self.geoclue.set_position_provider(provider['name'])
+            coordinates = self.geoclue.get_location_info()
+            # Ugly hack for determining most accurate provider as python-geoclue doesn't pass this info
+            lat_accuracy_provider = len(str(coordinates['latitude']))
+            if lat_accuracy_provider > lat_accuracy:
+                lat_accuracy = lat_accuracy_provider
+                selected_provider = provider['name']
+
+        self.geoclue.set_position_provider(selected_provider)
         self.geoclue.position.connect_to_signal("PositionChanged", self.location_changed_geoclue)
 
         try:
