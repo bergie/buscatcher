@@ -175,7 +175,7 @@ class buscatcher(gtk.Window):
         try:
             url = 'http://hkl.seuranta.org/kml'
             req = opener.open(url)
-            kml = req.read()
+            kml = req.read(10000)
         except urllib2.HTTPError, e:
             print('KML HTTP error %s' % (e.code))
             return True
@@ -222,7 +222,7 @@ class buscatcher(gtk.Window):
                             print "Downloading " + iconurl
                             web = urllib.urlopen(iconurl)
                             local = open(iconpath, 'w')
-                            local.write(web.read())
+                            local.write(web.read(10000))
                             web.close()
                             local.close()
                         self.downloads[iconurl] = iconpath
