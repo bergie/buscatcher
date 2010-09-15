@@ -192,7 +192,7 @@ class buscatcher(gtk.Window):
         try:
             url = 'http://hkl.seuranta.org/kml'
             req = opener.open(url)
-            kml = req.read(10000)
+            kml = req.read(100000)
         except urllib2.HTTPError, e:
             print('KML HTTP error %s' % (e.code))
             return True
