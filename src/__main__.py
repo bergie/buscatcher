@@ -46,6 +46,12 @@ try:
 except ImportError:
     pass
 
+conic = None
+try:
+    import conic
+except ImportError:
+    pass
+
 class buscatcher(gtk.Window):
     location = None
     kmlfetch = None
@@ -250,6 +256,10 @@ class buscatcher(gtk.Window):
             self.update_bus(bus)
 
 if __name__ == "__main__":
+    if conic:
+        # Request Maemo to start an internet connection, as buscatcher doesn't really make sense without one
+        connection = conic.Connection()
+
     u = buscatcher()
     u.show_all()
 

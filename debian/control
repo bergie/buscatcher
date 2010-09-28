@@ -9,7 +9,8 @@ Standards-Version: 3.6.0
 Package: buscatcher
 Section: user/navigation
 Architecture: all
-Depends: python2.5-minimal, python-gtk2, python-gobject, python-geoclue | python-location, python-osmgpsmap, python-xml, python-osso
+Depends: python2.5-minimal, python-gtk2, python-gobject, python-geoclue | python-location, python-osmgpsmap, python-xml
+Recommends: python-osso, python-conic
 Description: Helsinki buses and trams moving on map in real time
 XB-Maemo-Display-Name: Helsinki Bus Catcher
 XSBC-Bugtracker: http://github.com/bergie/buscatcher/issues
