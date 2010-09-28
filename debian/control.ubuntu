@@ -9,7 +9,8 @@ Standards-Version: 3.6.0
 Package: buscatcher
 Section: gnome
 Architecture: all
-Depends: python2.5-minimal, python-gtk2, python-gobject, python-geoclue, python-osmgpsmap, python-xml
+Depends: python, python-gtk2, python-gobject, python-geoclue, python-osmgpsmap
+Recommends: geoclue-hostip, geoclue-plazes
 Description: Helsinki buses and trams moving on map in real time
 XSBC-Bugtracker: http://github.com/bergie/buscatcher/issues
 Homepage: http://github.com/bergie/buscatcher
