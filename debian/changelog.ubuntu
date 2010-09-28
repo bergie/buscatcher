@@ -1,3 +1,9 @@
+buscatcher (0.1.3) lucid; urgency=low
+
+  * Ubuntu doesn't have user category either
+
+ -- Henri Bergius <henri.bergius@iki.fi>  Tue, 28 Sep 2010 11:52:24 +0200
+
 buscatcher (0.1.2) lucid; urgency=low
 
   * Ubuntu doesn't have navigation category

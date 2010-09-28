@@ -1,5 +1,5 @@
 Source: buscatcher
-Section: user/gnome
+Section: gnome
 Priority: optional
 Maintainer: Henri Bergius <henri.bergius@iki.fi>
 Homepage: http://github.com/bergie/buscatcher
@@ -7,62 +7,9 @@ Build-Depends: debhelper (>= 4.0.0)
 Standards-Version: 3.6.0
 
 Package: buscatcher
-Section: user/gnome
+Section: gnome
 Architecture: all
-Depends: python2.5-minimal, python-gtk2, python-gobject, python-geoclue | python-location, python-osmgpsmap, python-xml
+Depends: python2.5-minimal, python-gtk2, python-gobject, python-geoclue, python-osmgpsmap, python-xml
 Description: Helsinki buses and trams moving on map in real time
-XB-Maemo-Display-Name: Helsinki Bus Catcher
 XSBC-Bugtracker: http://github.com/bergie/buscatcher/issues
 Homepage: http://github.com/bergie/buscatcher
-XB-Maemo-Icon-26:
- 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
- WuJ9AAAAAElFTkSuQmCC
