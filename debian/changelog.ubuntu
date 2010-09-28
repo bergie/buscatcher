@@ -1,0 +1,12 @@
+buscatcher (0.1.1) lucid; urgency=low
+
+  * Ubuntu version
+
+ -- Henri Bergius <henri.bergius@iki.fi>  Tue, 28 Sep 2010 11:34:24 +0200
+
+buscatcher (0.1) unstable; urgency=low
+
+  * Initial release
+
+ -- Henri Bergius <henri.bergius@iki.fi>  Tue, 7 Sep 2010 17:32:24 +0200
+
