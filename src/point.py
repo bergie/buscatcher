@@ -66,6 +66,9 @@ class point():
 
         return u"%s %s" % (lat, lon)
 
+    def __repr__(self):
+        return "%s %s" % (self.lat, self.lon)
+
     def describe(self):
         if self.description != None:
             return self.description
