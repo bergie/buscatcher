@@ -262,6 +262,8 @@ if __name__ == "__main__":
     parser = optparse.OptionParser("buscatcher OPTIONS")
     parser.add_option("--kml-url", type="string", default="http://hkl.seuranta.org/kml")
     parser.add_option("--update-interval", type="int", default=5000)
+    parser.add_option("--initial-lat", type="float", default=0.0)
+    parser.add_option("--initial-lon", type="float", default=0.0)
     (options, args) = parser.parse_args()
 
     if conic:
@@ -269,6 +271,9 @@ if __name__ == "__main__":
         connection = conic.Connection()
 
     u = buscatcher()
+    if options.initial_lat != 0.0:
+        initial_location = point.point(options.initial_lat, options.initial_lon)
+        u.set_location(initial_location)
     u.show_all()
 
     if osso:
