@@ -117,7 +117,7 @@ class buscatcher(gtk.Window):
            self.get_location_liblocation()
 
     def set_location(self, location):
-        if self.location.lat == 0.0 or self.location.lon == 0.0:
+        if location.lat == 0.0 or location.lon == 0.0:
             return
         self.location = location
         self.osm.set_mapcenter(self.location.lat, self.location.lon, 15)
