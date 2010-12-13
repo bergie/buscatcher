@@ -25,6 +25,7 @@ from xml.etree import ElementTree as ET
 import tempfile
 import os
 import socket
+import optparse
 
 gobject.threads_init()
 gtk.gdk.threads_init()
@@ -32,6 +33,7 @@ import osmgpsmap
 
 location = None
 Geoclue = None
+options = None
 try:
     import Geoclue
 except ImportError:
@@ -119,7 +121,7 @@ class buscatcher(gtk.Window):
         self.osm.set_mapcenter(self.location.lat, self.location.lon, 15)
 
         if self.kmlfetch is None:
-            self.kmlfetch = gobject.timeout_add(5000, self.fetch_kml)
+            self.kmlfetch = gobject.timeout_add(options.update_interval, self.fetch_kml)
 
     def get_location_liblocation(self):
         self.control = location.GPSDControl.get_default()
@@ -175,7 +177,7 @@ class buscatcher(gtk.Window):
     def tracking_start(self):
         self.stop_fetching = False
         if self.kmlfetch is None:
-            self.kmlfetch = gobject.timeout_add(5000, self.fetch_kml)
+            self.kmlfetch = gobject.timeout_add(options.update_interval, self.fetch_kml)
         if Geoclue:
             pass
         elif location:
@@ -196,8 +198,7 @@ class buscatcher(gtk.Window):
         opener = urllib2.build_opener()
         opener.addheaders = [('User-agent', 'buscatcher/0.1')]
         try:
-            url = 'http://hkl.seuranta.org/kml'
-            req = opener.open(url)
+            req = opener.open(options.kml_url)
             kml = req.read(100000)
         except urllib2.HTTPError, e:
             print('KML HTTP error %s' % (e.code))
@@ -256,6 +257,11 @@ class buscatcher(gtk.Window):
             self.update_bus(bus)
 
 if __name__ == "__main__":
+    parser = optparse.OptionParser("buscatcher OPTIONS")
+    parser.add_option("--kml-url", type="string", default="http://hkl.seuranta.org/kml")
+    parser.add_option("--update-interval", type="int", default=5000)
+    (options, args) = parser.parse_args()
+
     if conic:
         # Request Maemo to start an internet connection, as buscatcher doesn't really make sense without one
         connection = conic.Connection()
