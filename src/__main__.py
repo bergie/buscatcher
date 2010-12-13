@@ -111,7 +111,9 @@ class buscatcher(gtk.Window):
         self.osm.add_image(self.buses[busid]['location'].lat, self.buses[busid]['location'].lon, self.buses[busid]['icon'])
 
     def get_location(self):
-        if Geoclue:
+        if options.no_update_position:
+            return
+        elif Geoclue:
             self.get_location_geoclue()
         elif location:
            self.get_location_liblocation()
@@ -264,6 +266,7 @@ if __name__ == "__main__":
     parser.add_option("--update-interval", type="int", default=5000)
     parser.add_option("--initial-lat", type="float", default=0.0)
     parser.add_option("--initial-lon", type="float", default=0.0)
+    parser.add_option("--no-update-position", action="store_true")
     (options, args) = parser.parse_args()
 
     if conic:
