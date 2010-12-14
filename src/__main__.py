@@ -111,12 +111,16 @@ class buscatcher(gtk.Window):
         self.osm.add_image(self.buses[busid]['location'].lat, self.buses[busid]['location'].lon, self.buses[busid]['icon'])
 
     def get_location(self):
-        if Geoclue:
+        if options.no_update_position:
+            return
+        elif Geoclue:
             self.get_location_geoclue()
         elif location:
            self.get_location_liblocation()
 
     def set_location(self, location):
+        if location.lat == 0.0 or location.lon == 0.0:
+            return
         self.location = location
         self.osm.set_mapcenter(self.location.lat, self.location.lon, 15)
 
@@ -260,6 +264,9 @@ if __name__ == "__main__":
     parser = optparse.OptionParser("buscatcher OPTIONS")
     parser.add_option("--kml-url", type="string", default="http://hkl.seuranta.org/kml")
     parser.add_option("--update-interval", type="int", default=5000)
+    parser.add_option("--initial-lat", type="float", default=0.0)
+    parser.add_option("--initial-lon", type="float", default=0.0)
+    parser.add_option("--no-update-position", action="store_true")
     (options, args) = parser.parse_args()
 
     if conic:
@@ -267,6 +274,9 @@ if __name__ == "__main__":
         connection = conic.Connection()
 
     u = buscatcher()
+    if options.initial_lat != 0.0:
+        initial_location = point.point(options.initial_lat, options.initial_lon)
+        u.set_location(initial_location)
     u.show_all()
 
     if osso:
